@@ -69,4 +69,44 @@ CREATE TABLE time_entries (
 '''
 create_table('time_entries', create_time_entries)
 
+create_tasks = '''
+CREATE TABLE tasks (
+    Id varchar(1000) primary key,
+    IdExternal text,
+    Name text,
+    IsSummaryTask text,
+    SummaryTask_Id text,
+    IsMilestone text,
+    ResourceType_Id text,
+    WorkPercentComplete real,
+    WorkPercentCompleteType_Id text,
+    WorkHours integer,
+    WorkSeconds integer,
+    ActualStartDateTimeUTC text,
+    ActualEndDateTimeUTC text,
+    DeadlineDate text,
+    WBSCode text,
+    StartDateTimeUTC text,
+    EndDateTimeUTC text,
+    Project_Id text,
+    DurationSeconds integer,
+    LastComment_Id text
+)
+'''
+create_table('tasks', create_tasks)
+
+create_task_predecessors = '''
+CREATE TABLE task_predecessors (
+    Id varchar(1000) primary key,
+    PredecessorType integer,
+    Predecessor_Id text,
+    IsLag text,
+    Duration integer,
+    IdExternal text,
+    Task_Id varchar(1000)
+)
+'''
+create_table('task_predecessors', create_task_predecessors)
+
+
 conn.close()

@@ -97,4 +97,26 @@ time_entries = extract_sub_objects('time_entries', projects, 'Id')
 load_objects('time_entries', time_entries)
 print('# of rows inserted =', get_row_count('time_entries'))
 
+tasks = extract_sub_objects('tasks', projects, 'Id')
+task_predecessors = []
+for task in tasks:
+    preds = task['TaskPredecessors']
+    for pred in preds:
+        pred['Task_Id'] = task['Id']
+    task_predecessors.extend(preds)
+    del task['TaskPredecessors']
+
+for t in tasks: print(t)
+
+print("preds")
+for tp in task_predecessors: print(tp)
+
+load_objects('tasks', tasks)
+print('# of rows inserted tasks =', get_row_count('tasks'))
+
+load_objects('task_predecessors', task_predecessors)
+print('# of rows inserted task_predecessors =', get_row_count('task_predecessors'))
+
+
+
 conn.close()
