@@ -1,0 +1,2 @@
+# don't need to check in properties file which has credentials
+*.properties
