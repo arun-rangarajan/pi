@@ -89,10 +89,10 @@ def load_objects(obj_name, objects, fields_to_skip=[]):
     column_names = ['`' + x + '`' for x in props]
     column_names_str = ','.join(column_names)
     sql_fmt = 'INSERT INTO ' + obj_name + '(' + column_names_str + ') VALUES ({})'
+    sql_placeholder = sql_fmt.format(','.join(['?'] * len(props)))
     for obj in objects:
-        vals = ["'" + str(obj.get(k, 'None')) + "'" for k in props]
-        sql = sql_fmt.format(','.join(vals))
-        cursor.execute(sql)
+        vals = tuple([obj.get(k, None) for k in props])
+        cursor.execute(sql_placeholder, vals)
     conn.commit()
 
 def get_row_count(table_name):
@@ -151,3 +151,4 @@ load_objects('task_resources', task_resources)
 print('# of task_resources inserted = %d' % get_row_count('task_resources'))
 
 conn.close()
+print('DONE')
